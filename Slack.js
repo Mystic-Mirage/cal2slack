@@ -64,6 +64,7 @@ class Slack {
    * @returns {[text, text, Date]}
    */
   getStatus() {
+    /** @type {{profile: {status_text: string, status_emoji: string, status_expiration: number}}} */
     const result = this.postApi("users.profile.get");
     return [result.profile.status_text, result.profile.status_emoji, new Date(result.profile.status_expiration * 1000)];
   }
@@ -74,6 +75,7 @@ class Slack {
    * @returns {boolean}
    */
   isAway() {
+    /** @type {{presence: string}} */
     const result = this.postApi("users.getPresence");
     return result.presence === "away";
   }
@@ -114,7 +116,7 @@ class Slack {
   /**
    * Set user presence
    *
-   * @param {boolean} away
+   * @param {boolean} [away=true]
    * @returns {Slack}
    */
   setAway(away=true) {
