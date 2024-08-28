@@ -23,7 +23,7 @@ function main() {
                 // don't set status if a user declined an event
                 if (attendee.responseStatus === "declined") break;
 
-                // on a meeting
+                // in a meeting
                 return slack.setStatus(event.summary, emoji.get("InAMeeting"), endDate).setAway(false);
               }
             }
