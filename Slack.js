@@ -75,7 +75,7 @@ class Slack {
    */
   isAway() {
     const result = this.postApi("users.getPresence");
-    return result.presence == "away";
+    return result.presence === "away";
   }
 
   /**
