@@ -2,6 +2,7 @@
  * The main function that should be triggered every minute
  */
 function main() {
+  const emoji = new Emoji();
   const slack = new Slack();
 
   for (const event of listUpcomingEvents().reverse()) {
@@ -23,29 +24,14 @@ function main() {
                 if (attendee.responseStatus === "declined") break;
 
                 // on a meeting
-                return slack.setStatus(event.summary, ":spiral_calendar_pad:", endDate).setAway(false);
+                return slack.setStatus(event.summary, emoji.get("InAMeeting"), endDate).setAway(false);
               }
             }
           }
 
           break;
         case "outOfOffice": // out of office event
-          let emoji = ":no_entry:";
-          if (event.summary) {
-            if (event.summary.match(/vacation/i)) {  // vacation
-              emoji = ":palm_tree:";
-            } else if (event.summary.match(/doctor\s+appointment/i)) {  // gotta visit a doctor
-              emoji = ":syringe:";
-            } else if (event.summary.match(/(sick\s+leave|out\s+sick)/i)) {  // illness
-              emoji = ":face_with_thermometer:"
-            } else if (event.summary.match(/(no|bad|poor)\s+(connection|internet)/i)) {  // no connection
-              emoji = ":internet-problems:"
-            } else if (event.summary.match(/(no\s+power|power\s+outage)/i)) {  // issues with electricity
-              emoji = ":electric_plug:"
-            }
-          }
-
-          return slack.setStatus(event.summary, emoji, endDate).setAway();
+          return slack.setStatus(event.summary, emoji.match(event.summary), endDate).setAway();
       }
     }
   }
@@ -53,7 +39,7 @@ function main() {
   const nextWorkingDateTime = getNextWokringDateTime();
   if (nextWorkingDateTime) {
     // AFK if not within working hours
-    return slack.setStatus("Outside working hours", ":afk:", nextWorkingDateTime).setAway();
+    return slack.setStatus("Outside working hours", emoji.get("OutsideWorkingHours"), nextWorkingDateTime).setAway();
   }
 
   // reset presence if there is no events but keep current status for custom ones
