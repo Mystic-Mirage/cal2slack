@@ -36,6 +36,10 @@ function main() {
               emoji = ":palm_tree:";
             } else if (event.summary.match(/doctor\s+appointment/i)) {  // gotta visit a doctor
               emoji = ":syringe:";
+            } else if (event.summary.match(/(sick\s+leave|out\s+sick)/i)) {  // illness
+              emoji = ":face_with_thermometer:"
+            } else if (event.summary.match(/(no|bad|poor)\s+(connection|internet)/i)) {  // no connection
+              emoji = ":internet-problems:"
             } else if (event.summary.match(/(no\s+power|power\s+outage)/i)) {  // issues with electricity
               emoji = ":electric_plug:"
             }
