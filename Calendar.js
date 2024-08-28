@@ -1,3 +1,8 @@
+/**
+ * Get current calendar events
+ *
+ * @returns {Calendar.Schema.Event[]}
+ */
 function listUpcomingEvents() {
   const calendarId = "primary";
 
