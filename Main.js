@@ -6,6 +6,8 @@ function main() {
 
     if (event.visibility !== "private") {
       const endDate = new Date(event.end.dateTime);
+      // don't set status if an event ends in less than a minute
+      if ((endDate - new Date()) < 60000) continue;
 
       switch (event.eventType) {
         case "default":
