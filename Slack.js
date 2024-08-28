@@ -134,8 +134,3 @@ class Slack {
     return this.setAway(false);
   }
 }
-
-function test() {
-  const slack = new Slack();
-  console.log(slack.getStatus());
-}
