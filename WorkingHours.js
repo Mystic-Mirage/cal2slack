@@ -1,5 +1,5 @@
 // Time zone is the project's time zone
-// Timezone of the script should match time zone fo the spreadsheet
+// Timezone of the script should match time zone of the spreadsheet
 
 const WEEKDAYS = [
   "0 - Sunday",
