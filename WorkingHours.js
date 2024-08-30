@@ -1,44 +1,47 @@
 // Time zone is the project's time zone
-const WORKING_HOURS = {
-  // Monday
-  1: [
-    "13:00-21:00",
-  ],
-  // Tuesday
-  2: [
-    "13:00-21:00",
-  ],
-  // Wednesday
-  3: [
-    "13:00-21:00",
-  ],
-  // Thursday
-  4: [
-    "13:00-21:00",
-  ],
-  // Friday
-  5: [
-    "13:00-21:00",
-  ],
-};
+// Timezone of the script should match time zone fo the spreadsheet
 
+const WEEKDAYS = [
+  "0 - Sunday",
+  "1 - Monday",
+  "2 - Tuesday",
+  "3 - Wednesday",
+  "4 - Thursday",
+  "5 - Friday",
+  "6 - Saturday",
+];
+
+/**
+ * @param {Date} now
+ * @yields {[Date, Date]}
+ */
 function* schedule(now) {
-  let sched = [];
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const outOfOfficeSheet = ss.getSheetByName("WorkingHours");
+  const workingHours = outOfOfficeSheet.getDataRange().getValues()
+
+  const schedRaw = [];
+  for (const [dayName, time1, time2] of workingHours) {
+    schedRaw[dayName] = schedRaw[dayName] || [];
+    if (time1 && time2 && time1 < time2) {
+      schedRaw[dayName].push([time1, time2]);
+    }
+  }
+
+  const sched = [];
   for (let i = 0; i < 14; i++) {
-    sched[i] = WORKING_HOURS[i % 7] || [];
+    sched[i] = (schedRaw[WEEKDAYS[i % 7]] || []).sort(([a], [b]) => a - b);
   }
 
   let dayShift = 0;
   for (const day of sched.slice(now.getDay())) {
-    for (const hours of day) {
-      const [beginHour, beginMinute, endHour, endMinute] = hours.split(/\D/);
-
+    for (const [beginTime, endTime] of day) {
       const begin = new Date(now);
-      begin.setHours(beginHour, beginMinute, 0, 0);
+      begin.setHours(beginTime.getHours(), beginTime.getMinutes(), 0, 0);
       begin.setDate(begin.getDate() + dayShift);
 
       const end = new Date(now);
-      end.setHours(endHour, endMinute, 0, 0);
+      end.setHours(endTime.getHours(), endTime.getMinutes(), 0, 0);
       end.setDate(end.getDate() + dayShift);
 
       yield [begin, end];
