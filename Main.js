@@ -36,7 +36,7 @@ function main() {
     }
   }
 
-  const nextWorkingDateTime = getNextWokringDateTime();
+  const nextWorkingDateTime = getNextWorkingDateTime();
   if (nextWorkingDateTime) {
     // AFK if not within working hours
     return slack.setStatus("Outside working hours", emoji.get("OutsideWorkingHours"), nextWorkingDateTime).setAway();

@@ -52,7 +52,7 @@ function* schedule(now) {
   }
 }
 
-function getNextWokringDateTime() {
+function getNextWorkingDateTime() {
   const now = new Date();
   const sched = schedule(now);
 
