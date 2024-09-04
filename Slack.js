@@ -3,9 +3,9 @@
  */
 class Slack {
   constructor() {
-    const props = PropertiesService.getScriptProperties().getProperties();
+    const sp = PropertiesService.getScriptProperties();
     /** @private */
-    this.token = props.SLACK_TOKEN;
+    this.token = sp.getProperty(SLACK_USER_TOKEN_PROPERTY_NAME);
     /** @private */
     this.url = "https://slack.com/api/";
   }

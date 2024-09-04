@@ -1,3 +1,6 @@
+const OUT_OF_OFFICE_SHEET = "OutOfOffice";
+const OTHER_SHEET = "Other";
+
 /**
  * Return colon if string is not colon and empty string if it is
  *
@@ -21,8 +24,8 @@ function addColons(arr) {
 class Emoji {
   constructor() {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const outOfOfficeSheet = ss.getSheetByName("OutOfOffice");
-    const otherSheet = ss.getSheetByName("Other");
+    const outOfOfficeSheet = ss.getSheetByName(OUT_OF_OFFICE_SHEET);
+    const otherSheet = ss.getSheetByName(OTHER_SHEET);
 
     /** @private */
     this.outOfOfficeEmoji = addColons(outOfOfficeSheet.getDataRange().getValues().reverse());

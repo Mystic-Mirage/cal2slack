@@ -1,6 +1,7 @@
 // Time zone is the project's time zone
 // Timezone of the script should match time zone of the spreadsheet
 
+const WORKING_HOURS_SHEET = "WorkingHours";
 const WEEKDAYS = [
   "0 - Sunday",
   "1 - Monday",
@@ -17,7 +18,7 @@ const WEEKDAYS = [
  */
 function* schedule(now) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const outOfOfficeSheet = ss.getSheetByName("WorkingHours");
+  const outOfOfficeSheet = ss.getSheetByName(WORKING_HOURS_SHEET);
   const workingHours = outOfOfficeSheet.getDataRange().getValues()
 
   const schedRaw = [];
