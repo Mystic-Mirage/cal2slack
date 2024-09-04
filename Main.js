@@ -23,8 +23,13 @@ function main() {
                 // don't set status if a user declined an event
                 if (attendee.responseStatus === "declined") break;
 
+                // one-to-one
+                if (event.attendees.length === 2) {
+                  return slack.setStatus(event.summary, emoji.get(EventType.ONE_TO_ONE), endDate).setAway(false);
+                }
+
                 // in a meeting
-                return slack.setStatus(event.summary, emoji.get("InAMeeting"), endDate).setAway(false);
+                return slack.setStatus(event.summary, emoji.get(EventType.IN_A_MEETING), endDate).setAway(false);
               }
             }
           }
@@ -39,7 +44,7 @@ function main() {
   const nextWorkingDateTime = getNextWorkingDateTime();
   if (nextWorkingDateTime) {
     // AFK if not within working hours
-    return slack.setStatus("Outside working hours", emoji.get("OutsideWorkingHours"), nextWorkingDateTime).setAway();
+    return slack.setStatus("Outside working hours", emoji.get(EventType.OUTSIDE_WORKING_HOURS), nextWorkingDateTime).setAway();
   }
 
   // reset presence if there is no events but keep current status for custom ones

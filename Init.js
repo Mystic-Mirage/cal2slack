@@ -28,6 +28,12 @@ const WORKING_HOURS = [
   "23:00",
 ]
 
+const EventType = {
+  OUTSIDE_WORKING_HOURS: "OutsideWorkingHours",
+  IN_A_MEETING: "InAMeeting",
+  ONE_TO_ONE: "OneToOne",
+}
+
 /**
  * Init configuration sheets
  */
@@ -105,8 +111,9 @@ function init() {
   if (!otherSheet.getRange(1, 1).getValue()) {
     const otherRange = otherSheet.getRange(1, 1, 2, 2);
     otherRange.setValues([
-      ["InAMeeting", "spiral_calendar_pad"],
-      ["OutsideWorkingHours", "afk"],
+      [EventType.OUTSIDE_WORKING_HOURS, "afk"],
+      [EventType.IN_A_MEETING, "spiral_calendar_pad"],
+      [EventType.ONE_TO_ONE, "busts_in_silhouette"],
     ]);
   }
 }
