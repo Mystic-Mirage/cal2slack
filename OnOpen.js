@@ -24,7 +24,7 @@ function addSlackUserToken() {
   const result = ui.prompt(Text.SLACK_USER_TOKEN_TITLE, Text.SLACK_USER_TOKEN_NOTE, ui.ButtonSet.OK_CANCEL);
   const button = result.getSelectedButton();
   const value = result.getResponseText();
-  if (button === ui.Button.OK) {
+  if (button === ui.Button.OK && value) {
     const sp = PropertiesService.getScriptProperties();
     sp.setProperty(SLACK_USER_TOKEN_PROPERTY_NAME, value);
   }
