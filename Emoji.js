@@ -39,7 +39,7 @@ class Emoji {
    * @param {string} key
    */
   get(key) {
-    return this.otherEmoji[key];
+    return this.otherEmoji[key] || "";
   }
 
   /**
