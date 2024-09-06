@@ -29,6 +29,7 @@ const WORKING_HOURS = [
 ]
 
 const EventType = {
+  NO_EVENT: "NoEvent",
   OUTSIDE_WORKING_HOURS: "OutsideWorkingHours",
   IN_A_MEETING: "InAMeeting",
   ONE_TO_ONE: "OneToOne",
@@ -111,6 +112,7 @@ function init() {
   if (!miscSheet.getRange(1, 1).getValue()) {
     const otherRange = miscSheet.getRange(1, 1, 2, 2);
     otherRange.setValues([
+      [EventType.NO_EVENT, ""],
       [EventType.OUTSIDE_WORKING_HOURS, "afk"],
       [EventType.IN_A_MEETING, "spiral_calendar_pad"],
       [EventType.ONE_TO_ONE, "busts_in_silhouette"],

@@ -47,6 +47,12 @@ function main() {
     return slack.setStatus("Outside working hours", emoji.get(EventType.OUTSIDE_WORKING_HOURS), nextWorkingDateTime).setAway();
   }
 
-  // reset presence if there is no events but keep current status for custom ones
+  // set an emoji for no-event time if configured but keep if there's custom one set
+  const noEventEmoji = emoji.get(EventType.NO_EVENT);
+  if (noEventEmoji) {
+    slack.setDefaultStatus("", noEventEmoji);
+  }
+
+  // reset presence
   return slack.resetAway();
 }

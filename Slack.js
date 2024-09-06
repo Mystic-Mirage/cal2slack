@@ -61,12 +61,15 @@ class Slack {
   /**
    * Get current Slack status
    *
-   * @returns {[text, text, Date]}
+   * @returns {[text, text, Date | null]}
    */
   getStatus() {
     /** @type {{profile: {status_text: string, status_emoji: string, status_expiration: number}}} */
     const result = this.postApi("users.profile.get");
-    return [result.profile.status_text, result.profile.status_emoji, new Date(result.profile.status_expiration * 1000)];
+    return [
+      result.profile.status_text,
+      result.profile.status_emoji,
+      result.profile.status_expiration ? new Date(result.profile.status_expiration * 1000) : null];
   }
 
   /**
@@ -81,24 +84,51 @@ class Slack {
   }
 
   /**
+   * Post user's Slack status data
+   *
+   * @private
+   * @param {string} text
+   * @param {string} emoji
+   * @param {Date | number} expirationDate
+   */
+  postStatus(text, emoji, expirationDate) {
+    const expiration = expirationDate.valueOf() / 1000 | 0;
+    const data = {
+      profile: {
+        status_text: text,
+        status_emoji: emoji,
+        status_expiration: expiration,
+      }
+    };
+    this.postApi("users.profile.set", data);
+  }
+
+  /**
    * Set user's Slack status
    *
    * @param {string} text
    * @param {string} emoji
-   * @param {Date} expirationDate
+   * @param {Date | number} expirationDate
    * @returns {Slack}
    */
   setStatus(text, emoji, expirationDate) {
     if (!this.getStatus().every((value, index) => value.valueOf() === arguments[index].valueOf())) {
-      const expiration = expirationDate.valueOf() / 1000 | 0;
-      const data = {
-        profile: {
-          status_text: text,
-          status_emoji: emoji,
-          status_expiration: expiration,
-        }
-      };
-      this.postApi("users.profile.set", data);
+      this.postStatus(text, emoji, expirationDate);
+    }
+
+    return this;
+  }
+
+  /**
+   * Set status if there is no any
+   *
+   * @param {string} text
+   * @param {string} emoji
+   * @returns {Slack}
+   */
+  setDefaultStatus(text, emoji) {
+    if (this.getStatus().every(value => !value)) {
+      this.postStatus(text, emoji, 0);
     }
 
     return this;
