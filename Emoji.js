@@ -1,5 +1,5 @@
 const OUT_OF_OFFICE_SHEET = "OutOfOffice";
-const OTHER_SHEET = "Other";
+const MISC_SHEET = "Misc";
 
 /**
  * Return colon if string is not colon and empty string if it is
@@ -25,12 +25,12 @@ class Emoji {
   constructor() {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const outOfOfficeSheet = ss.getSheetByName(OUT_OF_OFFICE_SHEET);
-    const otherSheet = ss.getSheetByName(OTHER_SHEET);
+    const miscSheet = ss.getSheetByName(MISC_SHEET);
 
     /** @private */
     this.outOfOfficeEmoji = addColons(outOfOfficeSheet.getDataRange().getValues().reverse());
     /** @private */
-    this.otherEmoji = Object.fromEntries(addColons(otherSheet.getDataRange().getValues()));
+    this.otherEmoji = Object.fromEntries(addColons(miscSheet.getDataRange().getValues()));
   }
 
   /**

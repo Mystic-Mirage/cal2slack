@@ -57,14 +57,14 @@ function init() {
       outOfOfficeSheet.setName(OUT_OF_OFFICE_SHEET);
   }
 
-  let otherSheet = ss.getSheetByName(OTHER_SHEET);
-  if (!otherSheet) {
-    otherSheet = ss.insertSheet();
-    otherSheet.setName(OTHER_SHEET);
+  let miscSheet = ss.getSheetByName(MISC_SHEET);
+  if (!miscSheet) {
+    miscSheet = ss.insertSheet();
+    miscSheet.setName(MISC_SHEET);
   }
 
   // set column width for rest of the sheets
-  for (const sheet of [outOfOfficeSheet, otherSheet]) {
+  for (const sheet of [outOfOfficeSheet, miscSheet]) {
     for (const columnNum of [1, 2]) {
       if (outOfOfficeSheet.getColumnWidth(columnNum) === DEFAULT_COLUMN_WIDTH) {
         outOfOfficeSheet.setColumnWidth(columnNum, COLUMN_WIDTH);
@@ -108,8 +108,8 @@ function init() {
   }
 
   // fill other sheet
-  if (!otherSheet.getRange(1, 1).getValue()) {
-    const otherRange = otherSheet.getRange(1, 1, 2, 2);
+  if (!miscSheet.getRange(1, 1).getValue()) {
+    const otherRange = miscSheet.getRange(1, 1, 2, 2);
     otherRange.setValues([
       [EventType.OUTSIDE_WORKING_HOURS, "afk"],
       [EventType.IN_A_MEETING, "spiral_calendar_pad"],
